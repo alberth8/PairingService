@@ -72,6 +72,10 @@ target/
 # pyenv
 .python-version
 
+# misc
+tasks.mmd
+howto.mmd
+
 # celery beat schedule file
 celerybeat-schedule
 
