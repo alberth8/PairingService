@@ -1,0 +1,24 @@
+# Johnson's Algorithm
+
+- Finds shortest paths between all pairs in O(V^2 * logV + VE) if using a fibonacci heap, which, in practice is actually worse than say a binary heap or a pairing heap. I've decided to go with a pairing heap.
+- For sparse matrices, asyptotically faster than either repeated squaring of matrices or the Floyd-Warshall algorithm
+- *Returns*: matrix of shortest paths for all pairs of vertices
+
+# Disjkstra's Algorithm (G, w, s)
+- G is the graph
+- w is a weighted function mapping E to R
+- s is the initial node
+1. Initializations
+2. S = [];
+3. Q = G.V
+4. while Q.length != 0
+5.      u = EXTRACT-MIN(Q) # extracts a vertex u from V\S
+6.      S = S \union {u}
+7.      for each vertex v in G.Adj[u] # set over adjacent vertices
+8.          RELAX(u, v, w) # update v.pi and v.dist if can imporve shortest path to v
+
+# Pairing heap
+
+- Note: Heap is an array that satisfies the heap ordering property
+- considered a simplified / practictioner's version of a fibonacci heap
+- 
