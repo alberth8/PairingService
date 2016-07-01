@@ -95,9 +95,10 @@ def format_df(df):
 
     return {'cols': new_cols, 'df': df}
 
+
 def sanity_check(df):
     # check for symmetry: A^T = A
-    if not np.diag(df).sum():
+    if np.diag(df).sum():
         raise Exception('Diagonal should be all zeros')
     if not len((df.transpose() == df).all()) == (df.transpose() == df).all().sum():
         raise Exception('Matrix is not symmetric. An error occurred during data frame manipulation.')

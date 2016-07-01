@@ -9,16 +9,36 @@ all_shortest_paths() computes all shortest paths between all nodes in a given ad
 and returns an object of objects where the key represents the source node and the value is an
 object. This inner object's keys are represent the destination node, and it's value is
 the path, i.e. - the recommended ingredients.
+
+output:
+{
+ ...
+ source_i: {
+    ing_k: [ing_k, ... , source_i],
+    ...
+    ing_n: [ing_n, ... , source_i]
+ },
+ ...
+ source_p: {
+    ... similarly ...
+ },
+ ...
+ }
+
+
+NOTE on naming clarification: `start` indicates where we are starting to trace backwards, but in
+finding the paths (Dijkstra's algorithm), `start` is the end / destination node.
 '''
 
 
 def all_shortest_paths(start, adj_mat, ingredients):
 
     table = {}
+    # for each ingredient, treat it as the source node
     for end in ingredients:  # ingredients is what new_cols is in notebook
-        temp = {}
-        prevs = dijkstras(adj_mat, start)['prev']
-        for i in prevs:
+        temp = {}  # will store all paths from an ingredient to the source
+        prevs = dijkstras(adj_mat, start)['prev']  # finds all shortest paths going to source node
+        for i in prevs:  # for each end node, use `get_path` to trace backwards to the source
             temp[i] = get_path(i, end, prevs)['path']
         table[end] = temp
 
@@ -59,19 +79,20 @@ def dijkstras(adj_mat, start):
 
 
 '''
-get_path() gets an individual path between two selected nodes
+get_path() recursively gets an individual path between two selected nodes
 '''
 
 
 def get_path(here, to_here, all_paths):
 
-    def helper(start, end, start_to_end=[]):
+    def trace(start, end, start_to_end=[]):
         start_to_end.append(start)
 
         if start == end:
             return start_to_end
 
         next_node = all_paths[start]
-        return helper(next_node, end, start_to_end)
+        return trace(next_node, end, start_to_end)
 
-    return {'start': here, 'end': to_here, 'path': helper(here, to_here)}
+    return {'start': here, 'end': to_here, 'path': trace(here, to_here)}
+
