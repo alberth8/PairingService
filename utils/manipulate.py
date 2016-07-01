@@ -1,16 +1,24 @@
 import pandas as pd
 import itertools as it
 import numpy as np
+import json
+import functools
+
+pd.set_option('expand_frame_repr', False)
 
 '''
 Obtaining the list of ingredients for each recipe. Only interested
 in the ingredients, and so have stripped other information such as URL
 '''
 
-
-def get_recipes_ingredients(path):
-    with open(path) as recipes:
-        data = json.load(recipes)
+# NEED TO MODIFY TO EITHER TAKE A PATH OR A JSON
+@functools.lru_cache(maxsize=None)
+def get_recipes_ingredients(path_or_json):
+    if type(path_or_json) is str:
+        with open(path_or_json) as recipes:
+            data = json.load(recipes)
+    else:
+        data = path_or_json
 
     ingredients_per_recipe = []
     for obj in data:
@@ -20,7 +28,7 @@ def get_recipes_ingredients(path):
 
 # print(get_recipes_ingredients('/Users/alberthahn/HACK_REACTOR/PairingService/combinedRecipes.JSON'))
 
-
+@functools.lru_cache(maxsize=None)
 def format_ingredients(path):
     # getting the list of ingredients
     with open(path) as f:
@@ -37,7 +45,7 @@ def format_ingredients(path):
 Count number of pairings using a pandas dataframe
 '''
 
-
+# @functools.lru_cache(maxsize=None)
 def ingredients_to_df(ingredients, ingredients_per_recipe):
     df = pd.DataFrame(0, index=ingredients, columns=ingredients)
     for ingredient_list in ingredients_per_recipe:
@@ -56,6 +64,8 @@ def ingredients_to_df(ingredients, ingredients_per_recipe):
     # apples will be paired with apples
     df.values[[np.arange(len(ingredients))]*2] = 0
 
+    return df
+
 '''
 format_df():
  Removes rows and columns that have all zeros as this indicates that there are no
@@ -68,7 +78,7 @@ format_df():
     - object: new column names and formated dataframe
 '''
 
-
+# @functools.lru_cache(maxsize=None)
 def format_df(df):
     # Now need to remove row and columns that have all 0s
     df = df.loc[:, (df != 0).any(axis=0)]
@@ -84,7 +94,6 @@ def format_df(df):
     new_cols = list(df.columns.values)
 
     return {'cols': new_cols, 'df': df}
-
 
 def sanity_check(df):
     # check for symmetry: A^T = A
