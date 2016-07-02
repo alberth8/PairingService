@@ -1,6 +1,7 @@
 from utils.manipulate import *
 from utils.Dijkstras import *  # or if that doesn't work, try from utils import Dijkstras
 import pandas as pd
+import json
 import pickle
 import numpy as np
 import math
@@ -62,7 +63,16 @@ col_names = ['absinthe', 'adobo', 'ale', 'allspice', 'almond', 'almond butter', 
 
 pairings_table = all_shortest_paths(clean, col_names)
 
+# json_pairings_table = json.dumps(pairings_table, indent=2, sort_keys=True, )
+# print(json_pairings_table)
+# print(type(json_pairings_table))
+#
+with open('data.json', 'w') as outfile:
+    json.dump(pairings_table, outfile, sort_keys=True, indent=2)
+
+
 ''' write k shortest paths table to pickle file'''
-with open('full_test_write.pickle', 'wb') as file:
-    # Pickle the 'data' dictionary using the highest protocol available.
-    pickle.dump(pairings_table, file, pickle.HIGHEST_PROTOCOL)
+# with open('full_test_write.pickle', 'wb') as file:
+#     Pickle the 'data' dictionary using the highest protocol available.
+#     pickle.dump(pairings_table, file, pickle.HIGHEST_PROTOCOL)
+#
