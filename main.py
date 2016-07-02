@@ -1,6 +1,7 @@
 from utils.manipulate import *
 from utils.Dijkstras import *  # or if that doesn't work, try from utils import Dijkstras
 import pandas as pd
+import pickle
 import numpy as np
 import math
 
@@ -40,11 +41,28 @@ col_names = ['absinthe', 'adobo', 'ale', 'allspice', 'almond', 'almond butter', 
 # sanity_check(clean) # -> passed
 
 ''' Dijkstras '''
-dijkstras_paths = dijkstras(clean, 'apple')['prev'] # works
+# dijkstras_paths = dijkstras(clean, 'absinthe')['prev'] # works
+# print(dijkstras_paths)
 
 '''get path'''
-oct_apl = get_path('octopus', 'apple', dijkstras_paths)
+# table = {}
+# for source in ['absinthe']:  # perform dijkstras on every single node
+#     temp = {}  # will store all paths from an ingredient to the source
+#     paths_to_source = dijkstras(clean, source)['prev']  # finds all shortest paths going to source node
+#     for i in paths_to_source:
+#         temp[i] = get_path(i, source, paths_to_source)['path']
+#     table[source] = temp
+#     print('TABLE:', table)
+#
+# print(table)
+# oct_apl = get_path('ginger ale', 'absinthe', dijkstras_paths)
 # 'apple' is the source. In `oct_apl`, no keys are 'apple'.
-print(oct_apl) # correct
+# print(oct_apl) # correct
 
-# all_shortest_paths()
+
+pairings_table = all_shortest_paths(clean, col_names)
+
+''' write k shortest paths table to pickle file'''
+with open('full_test_write.pickle', 'wb') as file:
+    # Pickle the 'data' dictionary using the highest protocol available.
+    pickle.dump(pairings_table, file, pickle.HIGHEST_PROTOCOL)
