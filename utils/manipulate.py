@@ -26,8 +26,6 @@ def get_recipes_ingredients(path_or_json):
 
     return ingredients_per_recipe
 
-# print(get_recipes_ingredients('/Users/alberthahn/HACK_REACTOR/PairingService/combinedRecipes.JSON'))
-
 @functools.lru_cache(maxsize=None)
 def format_ingredients(path):
     # getting the list of ingredients

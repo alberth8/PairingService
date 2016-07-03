@@ -75,6 +75,9 @@ target/
 # misc
 tasks.mmd
 howto.mmd
+things_learned
+dkr
+data.json
 
 # celery beat schedule file
 celerybeat-schedule

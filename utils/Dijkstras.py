@@ -31,16 +31,16 @@ finding the paths (Dijkstra's algorithm), `start` is the end / destination node.
 '''
 
 
-def all_shortest_paths(start, adj_mat, ingredients):
+def all_shortest_paths(adj_mat, ingredients):
 
     table = {}
-    # for each ingredient, treat it as the source node
-    for end in ingredients:  # ingredients is what new_cols is in notebook
+    for source in ingredients: # perform dijkstras on every single node
+        print('current source is:', source)
         temp = {}  # will store all paths from an ingredient to the source
-        prevs = dijkstras(adj_mat, start)['prev']  # finds all shortest paths going to source node
-        for i in prevs:  # for each end node, use `get_path` to trace backwards to the source
-            temp[i] = get_path(i, end, prevs)['path']
-        table[end] = temp
+        paths_to_source = dijkstras(adj_mat, source)['prev']  # finds all shortest paths going to source node
+        for i in paths_to_source:  # for each end node, record path going back to the source. So that should be all nodes except the source node
+            temp[i] = get_path(i, source, paths_to_source)['path']
+        table[source] = temp
 
     return table
 
@@ -59,7 +59,7 @@ def dijkstras(adj_mat, start):
             dist[v] = 0
         else:
             dist[v] = math.inf
-            prev[v] = None
+            prev[v] = None  # Note: some nodes will not have any neighbors, and so many be left as None; hence KeyError
         heappush(Q, [dist[v], v])
 
     while Q:
@@ -91,7 +91,14 @@ def get_path(here, to_here, all_paths):
         if start == end:
             return start_to_end
 
-        next_node = all_paths[start]
+        if not all_paths[start]:
+            next_node = end
+        else:
+            next_node = all_paths[start]  # move to the next node
+
+        # if not next_node: # if doesn't have a next node, don't include it
+        #    continue
+
         return trace(next_node, end, start_to_end)
 
     return {'start': here, 'end': to_here, 'path': trace(here, to_here)}
