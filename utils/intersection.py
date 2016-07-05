@@ -33,22 +33,28 @@ WOULD HAVE LIKED TO USE CHI SQUARED TEST, BUT LACKED DATA
 # TODO: WHERE TO CACHE?
 #
 
-def find_intersection(clean_df, ingredients_array):
+def find_intersection(clean_df, ingredients):
     # consider only the rows of the desired ingredients
-    df_temp = clean_df.loc[ingredients_array, :]
+    df_temp = clean_df.loc[ingredients, :]
+
+    # drop columns that match `ingredients`. Examining shape of df_temp before and after,
+    # column size decreases by 2
+    df_temp = df_temp.drop(labels=ingredients, axis=1)
 
     # Then consider only the columns that have been paired with all ingredients of interest
-    new_cols = df_temp.columns[(dftemp >= 1).all()]
+    new_cols = df_temp.columns[(df_temp > float(0)).all()]
 
     # Remove rows that are same as column names
-    final_df = df_temp.loc[:, new_cols].drop(labels=ingredients_array, axis=1)
+    final_df = df_temp.loc[:, new_cols]
 
     # Rank by examining uniformity of distribution along columns. Penalizing for non-uniformity.
     sums = final_df.sum()
     entropy = stats.entropy(final_df, base=2)
     rankings = np.power(sums, entropy)
+    rankings_sorted = rankings.sort_values()
 
-    cols = final_df.columns.values
-    rankings_list = list(zip(cols, rankings))  # list of tuples (<col_name>, <ranking>)
+    # format into list of tuples (<col_name>, <ranking>)
+    cols = rankings_sorted.index.values
+    rankings_list = list(zip(cols, rankings))
 
     return rankings_list
