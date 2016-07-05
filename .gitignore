@@ -78,6 +78,7 @@ howto.mmd
 things_learned
 dkr
 data.json
+v2.mmd
 
 # celery beat schedule file
 celerybeat-schedule

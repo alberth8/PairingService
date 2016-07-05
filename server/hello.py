@@ -5,6 +5,9 @@ import pandas as pd
 from flask import Flask, request, jsonify
 from pymongo import MongoClient
 
+from gevent.wsgi import WSGIServer
+from yourapplication import app
+
 
 app = Flask(__name__)  # will eventually change to __main__
 client = MongoClient('localhost', 27017)  # creates connection
@@ -99,6 +102,4 @@ def intersection():
     # return 'xyz'
 
 if __name__ == '__main__':
-    # app.run()
-    app.run(debug=True)
-    # app.run(host='0.0.0.0', port=6001, debug=True)
+    app.run()
