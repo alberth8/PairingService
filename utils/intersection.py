@@ -1,4 +1,8 @@
 import pandas as pd
+import numpy as np
+from scipy import stats
+
+
 
 '''
 NEED TO CREATE A CACHE!!! have it hold on to the top 200 most common combinations
@@ -29,18 +33,22 @@ WOULD HAVE LIKED TO USE CHI SQUARED TEST, BUT LACKED DATA
 # TODO: WHERE TO CACHE?
 #
 
-def find_intersection(ingredients_array):
-    # TODO: 1. assuming can grab clean_df from database
+def find_intersection(clean_df, ingredients_array):
+    # consider only the rows of the desired ingredients
     df_temp = clean_df.loc[ingredients_array, :]
 
-    # 2. consider only the rows of interest
-    sub_df = df_temp.columns[(dftemp >= 1).all()]
+    # Then consider only the columns that have been paired with all ingredients of interest
+    new_cols = df_temp.columns[(dftemp >= 1).all()]
 
-    # TODO: 3. since nxn, remove rows that are same as column names. Is it possible to chain to above?
+    # Remove rows that are same as column names
+    final_df = df_temp.loc[:, new_cols].drop(labels=ingredients_array, axis=1)
 
-    # TODO: 4. rank by examining uniformity of distribution along columns
-    # NAIVE: sum the total times they are paired and sort to obtain rank
-    # ranked = dftemp.loc[:, sub_df].sum(axis=0).sort_values(ascending=False, kind='mergesort')  # type Series
+    # Rank by examining uniformity of distribution along columns. Penalizing for non-uniformity.
+    sums = final_df.sum()
+    entropy = stats.entropy(final_df, base=2)
+    rankings = np.power(sums, entropy)
 
-    return ranked.index.values  # a series, so now return an array of the row labels
+    cols = final_df.columns.values
+    rankings_list = list(zip(cols, rankings))  # list of tuples (<col_name>, <ranking>)
 
+    return rankings_list

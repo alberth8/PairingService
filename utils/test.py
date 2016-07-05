@@ -1,4 +1,4 @@
-# from manipulate import get_recipe_ingredients
-from manipulate import get_recipes_ingredients
+with open('data.json', 'r') as json_file:  # do not write as binary
+    data = json.load(json_file)
 
-print(get_recipes_ingredients)
+print(data)
