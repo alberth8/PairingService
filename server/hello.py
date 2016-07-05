@@ -1,19 +1,24 @@
+# sys.path.insert(0, )
+from ..utils.intersection import find_intersection
 import json
 import pandas as pd
-from flask import Flask
+from flask import Flask, request, jsonify
 from pymongo import MongoClient
-from flask import request, jsonify
-from utils.intersection import *  # for getting intersection of ingredients
+
 
 app = Flask(__name__)  # will eventually change to __main__
+client = MongoClient('localhost', 27017)  # creates connection
+# client.
 
 '''
 How to run:
-$ export FLASK_APP=hello.py
+$ export FLASK_APP=server/hello.py
 $ flask run
+
+NOTE: If run in to importerror. try dropping database. make sure connected too.
 '''
 
-client = MongoClient('localhost', 27017)  # creates connection
+
 
 # drop database
 client.drop_database('pairings_service')
@@ -24,40 +29,20 @@ db = client['pairings_service']  # create database called pairings_service
 paths_coll = db.paths_collection
 clean_coll = db.clean_collection
 
-# TODO:
 # 1. seed database by opening file for paths_coll and inter_coll
 with open('paths_collection.json', 'r') as json_file:  # do not write as binary
     paths_table = json.load(json_file)
-# print(type(paths_table))
-paths_coll.insert_many(paths_table)
 
-# ----------------------------------------------------
-# Not sure if will need to store clean_df in database
-#
-with open('clean_collection.json', 'r') as clean:  # do not write as binary
-    clean_df = json.load(clean)
-clean_coll.insert_many(clean_df)
-#
-#
-# ----------------------------------------------------
+
+paths_coll.insert_many(paths_table)
 
 with open('store_clean.h5', 'rb') as file:
     clean_df = pd.read_hdf('store_clean.h5', 'table')
-print(clean_df.shape)
+# print(clean_df.shape)
 
 
-
-
-# 2. test in mongo if the queries work
-# test = paths_coll.find({'applez': {'$exists': True}})
-# print(test[0])
-# print(test[0]['apple']['rum'])
-
-# 3. test if routes work, use dummy data (global variables in server)
-# 4. add gevet...or whatever
-
-
-
+# 1. add gevet...or whatever
+# 2. add cache
 
 
 
@@ -84,7 +69,7 @@ Pairing service provides two functionalities:
 
 @app.route('/', methods=['GET'])
 def home():
-    return jsonify(a=2, b=3)
+    return 'xyz'
 
 # need to create another function for repopulating the database
 # input: SHOULD be taking info from the database
@@ -93,21 +78,27 @@ def home():
 #     all_paths(updated_records_from_saffrons_mysql) # which will clean_df and `paths` (json) to db
 
 
-@app.route('/api/path', methods=['GET'])
+@app.route('/api/path', methods=['POST'])
 def shortest_path():
-    ingredient_a = request.ingredients[0]
-    ingredient_b = request.ingredients[1]
-    doc = paths_coll.find({ingredient_a: {'$exists': True}})
-    path = doc[0][ingredient_a][ingredient_b]
-    return jsonify(path)
+    # GET: http://127.0.0.1:5000/api/path?from=apples&to=rum
+    # source = request.args.get('from')
+    # end = request.args.get('to')
+
+    source = request.get_json(force=True)['ingredients'][0]
+    end = request.get_json(force=True)['ingredients'][1]
+    document = paths_coll.find({source: {'$exists': True}})
+    path = document[0][source][end]
+    return jsonify(path=path)
 
 
-@app.route('/api/intersection', methods=['GET'])
+@app.route('/api/intersection', methods=['POST'])
 def intersection():
-    ingredients = request.ingredients  # type list
-    set = find_intersection(clean_df, ingredients)
-    return jsonify(set)
+    ingredients = request.get_json()['ingredients']
+    result = find_intersection(clean_df, ingredients)
+    return jsonify(result)
+    # return 'xyz'
 
 if __name__ == '__main__':
-    app.run()
+    # app.run()
+    app.run(debug=True)
     # app.run(host='0.0.0.0', port=6001, debug=True)
