@@ -7,12 +7,18 @@ import functools
 pd.set_option('expand_frame_repr', False)
 
 '''
-Obtaining the list of ingredients for each recipe. Only interested
-in the ingredients, and so have stripped other information such as URL
+get_recipes_ingredients():
+ Obtaining the set of ingredients for each recipe. Only interested
+ in the ingredients, and so have stripped other information such as URL.
+
+Input:
+ - path_or_json: path or a JSON object
+
+Output:
+ - ingredients_per_recipe: ingredients grouped in to respective recipes
 '''
 
-# NEED TO MODIFY TO EITHER TAKE A PATH OR A JSON
-@functools.lru_cache(maxsize=None)
+# @functools.lru_cache(maxsize=None)
 def get_recipes_ingredients(path_or_json):
     if type(path_or_json) is str:
         with open(path_or_json) as recipes:
@@ -26,7 +32,18 @@ def get_recipes_ingredients(path_or_json):
 
     return ingredients_per_recipe
 
-@functools.lru_cache(maxsize=None)
+'''
+format_ingredients():
+ Formats the list of ingredients for which we parse our recipes against
+
+ Input:
+  - path: A path to the list of ingredients (word bank)
+
+ Output:
+  - df: Cleaned version of the list of ingredients
+'''
+
+# @functools.lru_cache(maxsize=None)
 def format_ingredients(path):
     # getting the list of ingredients
     with open(path) as f:
@@ -40,7 +57,16 @@ def format_ingredients(path):
 
 
 '''
-Count number of pairings using a pandas dataframe
+ingredients_to_df():
+ Count number of pairings using a pandas data frame
+
+ Input:
+    - ingredients: our word bank of ingredients
+    - ingredients_per_recipe: only the ingredients found in our scraped
+    recipes, grouped by recipe
+
+ Output:
+    - df: a data frame serving as an adjacency matrix
 '''
 
 # @functools.lru_cache(maxsize=None)

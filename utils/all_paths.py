@@ -2,25 +2,18 @@ from utils.manipulate import *
 from utils.Dijkstras import *
 import os
 
-'''
+"""
 all_paths(<json>):
 
-finds all shortest paths between all ingredients in given data set.
+Finds all shortest paths between all ingredients in given data set.
 
 
-input: json object of recipes, with all the unnecessary stuff
-output: JSON object all paths table
+Input: json object of recipes, with all the unnecessary stuff
+Output: JSON object all paths table
 
-usage: to find the shortest path between two ingredients, simply reference
+Usage: to find the shortest path between two ingredients, simply reference
 the json object like you would a matrix, i.e. output['capers']['bulgar']
-
-Note:
-
-Since this is being called weekly by a worker, we have to be able to have
-ingredients_list persist somewhere. But worst case is recalculating it
-every time.
-'''
-
+"""
 
 
 def all_paths(recipes_json):

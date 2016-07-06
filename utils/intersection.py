@@ -1,45 +1,38 @@
-import pandas as pd
 import numpy as np
 from scipy import stats
 
-
-
 '''
-NEED TO CREATE A CACHE!!! have it hold on to the top 200 most common combinations
+find_intersection():
+ Finds commonly paired ingredients with the ingredients the user has given.
 
-otherwise will need to compute
+ We rank by two factors: distribution and cardinality. First we consider
+ only ingredients that have been paired with all ingredients selected by the
+ user (rows). Next, we examine the distribution of each of those intersections (columns).
+ How this is measured is by entropy, using log base 2 (shannons). Maximum entropy
+ is obtained in a uniform distribution, and so the more well distributed the
+ ingredients are, the higher it's entropy is. Lower bound is at 0.
 
-assuming I can some how get the CLEAN adjacency matrix from database...
+ However, total count is also important, as it represents frequency. So we must
+ factor in both variables. In order to address sets that heavily bias
+ towards one or a select few of ingredients, each count raised to the power of it's
+ entropy. This essentially rewards ingredients that are more well distributed.
 
-0. input: array of ingredients
-1. get df from database (odo?)
-2. grab all rows of all ingredients user gave me
-3. first things first, remove all the columns that match those ingredients (see note below)
-3. then we only consider what's in common, that means if any row intersecting
-   any one of our columns has a 0, then discard that column
-4. then we have to consider the distribution of the numbers over the columns.
-    the closer it is to a uniform distribution, the higher ranked it should be.
-    as a naiive approach, we just sum down the columns and rank. if there's no time
-    left, just do this.
+Input:
+ - clean_df: cleaned adjacency matrix
+ - user_ingredients: list of ingredients provided by user
 
-    NOTE: WE ALSO DON'T WANT TO CONSIDER COLUMNS THAT ARE IN THE INGREDIENT SET.
-5. return ranked labels
-
-
-WOULD HAVE LIKED TO USE CHI SQUARED TEST, BUT LACKED DATA
+Output:
+ - rankings_list: a list of tuples in ranked order
 '''
 
-#
-# TODO: WHERE TO CACHE?
-#
 
-def find_intersection(clean_df, ingredients):
-    # consider only the rows of the desired ingredients
-    df_temp = clean_df.loc[ingredients, :]
+def find_intersection(clean_df, user_ingredients):
+    # consider only the rows of the desired user_ingredients
+    df_temp = clean_df.loc[user_ingredients, :]
 
-    # drop columns that match `ingredients`. Examining shape of df_temp before and after,
+    # drop columns that match `user_ingredients`. Examining shape of df_temp before and after,
     # column size decreases by 2
-    df_temp = df_temp.drop(labels=ingredients, axis=1)
+    df_temp = df_temp.drop(labels=user_ingredients, axis=1)
 
     # Then consider only the columns that have been paired with all ingredients of interest
     new_cols = df_temp.columns[(df_temp > float(0)).all()]

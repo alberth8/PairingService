@@ -1,33 +1,37 @@
 import math
 from heapq import *
-import pandas as pd
 
 # Requires pandas
 
 '''
-all_shortest_paths() computes all shortest paths between all nodes in a given adjacency matrix
-and returns an object of objects where the key represents the source node and the value is an
-object. This inner object's keys are represent the destination node, and it's value is
-the path, i.e. - the recommended ingredients.
+all_shortest_paths():
+ Computes all shortest paths between all nodes in a given adjacency matrix
+ and returns an object of objects where the key represents the source node and the value is an
+ object. This inner object's keys are represent the destination node, and it's value is
+ the path, i.e. - the recommended ingredients.
 
-output:
-{
- ...
- source_i: {
-    ing_k: [ing_k, ... , source_i],
-    ...
-    ing_n: [ing_n, ... , source_i]
- },
- ...
- source_p: {
-    ... similarly ...
- },
- ...
- }
+Input:
+ - adj_mat: adjacency matrix (data frame)
+ - ingredients: list of all ingredients in the adjacency matrix
 
+Output:
+ - table, which of this form:
+    {
+     ...
+     source_i: {
+        ing_k: [ing_k, ... , source_i],  # <--- a path
+        ...
+        ing_n: [ing_n, ... , source_i]
+     },
+     ...
+     source_p: {
+        ... similarly ...
+     },
+     ...
+     }
 
-NOTE on naming clarification: `start` indicates where we are starting to trace backwards, but in
-finding the paths (Dijkstra's algorithm), `start` is the end / destination node.
+Note on naming convention: `source` represents the node to which all shortest paths to it
+ are being found.
 '''
 
 
@@ -35,17 +39,28 @@ def all_shortest_paths(adj_mat, ingredients):
 
     table = {}
     for source in ingredients: # perform dijkstras on every single node
-        print('current source is:', source)
+        print('Current source is:', source)
         temp = {}  # will store all paths from an ingredient to the source
         paths_to_source = dijkstras(adj_mat, source)['prev']  # finds all shortest paths going to source node
-        for i in paths_to_source:  # for each end node, record path going back to the source. So that should be all nodes except the source node
+
+        # For each end node, record path going back to the source (except source node)
+        for i in paths_to_source:
             temp[i] = get_path(i, source, paths_to_source)['path']
         table[source] = temp
 
     return table
 
 '''
-Dijkstra's algorithm implemented with pandas data frame as representation of graph
+dijkstras():
+ Dijkstra's algorithm implemented with pandas data frame as representation of a graph
+
+Input:
+ - adj_mat: an adjacency matrix (data frame)
+ - start: start/source node
+
+Output:
+ - dist: distances between nodes
+ - prev: a dictionary containing paths of all nodes
 '''
 
 
@@ -79,7 +94,19 @@ def dijkstras(adj_mat, start):
 
 
 '''
-get_path() recursively gets an individual path between two selected nodes
+get_path():
+ Recursively trace *backwards* to get an individual path between two selected nodes.
+ In other words, we are tracing back to the source node.
+
+Input:
+ - here: start/source node
+ - to_here: end/destination node
+ - all_paths: taken from `dijkstras()`, is the dictionary of all paths
+
+Output:
+ - start: start/source node
+ - end: end/destination node
+ - path: list of nodes in the path
 '''
 
 
@@ -102,4 +129,3 @@ def get_path(here, to_here, all_paths):
         return trace(next_node, end, start_to_end)
 
     return {'start': here, 'end': to_here, 'path': trace(here, to_here)}
-
