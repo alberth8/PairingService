@@ -1,0 +1,22 @@
+web:
+  restart: always
+  build: .
+  command: python -u app.py
+  ports:
+    - "5000:5000"
+  volumes:
+    - /usr/app
+  links:
+    - mongodb
+
+mongodata:
+  image: mongo:3.2.7
+  volumes:
+    - /data/db
+
+mongodb:
+  image: mongo:3.2.7
+  ports:
+    - "27017:27017"
+  volumes_from:
+    - mongodata
