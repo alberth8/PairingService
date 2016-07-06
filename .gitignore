@@ -73,12 +73,15 @@ target/
 .python-version
 
 # misc
-tasks.mmd
-howto.mmd
-things_learned
-dkr
-data.json
-v2.mmd
+misc/
+dkr/
+
+# testing files
+load_table.py
+main.py
+
+# jupyter notebooks
+*ipynb
 
 # celery beat schedule file
 celerybeat-schedule
@@ -95,3 +98,6 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# project settings
+.idea

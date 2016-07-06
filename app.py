@@ -1,12 +1,8 @@
-'''
+"""
 How to run:
-1.  $ sudo mongod
-   in new window, $ mongo
-2. $ export FLASK_APP=app.py
-   $ flask run
-
-NOTE: If run in to importerror. try dropping database. make sure connected too.
-'''
+ $ export FLASK_APP=app.py
+ $ flask run
+"""
 import json
 import pandas as pd
 from flask import Flask, request, jsonify
@@ -42,14 +38,15 @@ def home():
     return 'xyz'
 
 
-# need to create another function for repopulating the database
-# input: SHOULD be taking info from the database
+'''
+With newly crawled data, repopulates database and updates adjacency matrix clean_df
+'''
 @app.route('/api/update', methods=['POST'])
 def repopulate():
 
     recipe_data = request.get_json(force=True)['recipe_data']
     output = all_paths(recipe_data)  # which will be clean_df and a json of paths
-    new_clean_df = output['clean']
+    new_clean_df = output['clean_df']
     new_paths_table = output['paths_table']
 
     # update clean_df and also overwrite its file
@@ -61,9 +58,13 @@ def repopulate():
     db.drop_collection("paths_coll")
     # save new paths table
     paths_coll.insert_many(new_paths_table)
-    return 'Have a nice day :)'
+
+    return 'Everything is now updated. Thanks for waiting :)'
 
 
+'''
+Find path between two ingredients
+'''
 @app.route('/api/path', methods=['POST'])
 def shortest_path():
     # GET: http://127.0.0.1:5000/api/path?from=apples&to=rum
@@ -77,6 +78,9 @@ def shortest_path():
     return jsonify(path=path)
 
 
+'''
+Obtain recommended pairings between a given set of ingredients
+'''
 @app.route('/api/intersection', methods=['POST'])
 def intersection():
     ingredients = request.get_json()['ingredients']
