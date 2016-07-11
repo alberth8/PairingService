@@ -32,7 +32,6 @@ RUN pip install pymongo
 
 COPY . /myapp
 
-
-
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
+
 CMD [ "/bin/bash" ]
