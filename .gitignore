@@ -75,13 +75,12 @@ target/
 # misc
 misc/
 dkr/
+HowTos.ipynb
 
 # testing files
 load_table.py
 main.py
 
-# jupyter notebooks
-*ipynb
 
 # celery beat schedule file
 celerybeat-schedule
