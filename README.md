@@ -2,7 +2,8 @@
 
 This is a microservice that recommends ingredients for the app Saffron.
 
----
+## Motivation
+
 
 At some point in my career as a homecook, I grew tired of cooking from recipes. I wanted to create my own recipes and experiment with new flavor profiles. The problem was that there didnt' seem to be a comprehensive resource that could answer the question of what other ingredients paired well with a given set of ingredients.
 
@@ -10,14 +11,24 @@ If one could imagine a database where every single table represented an ingredie
 
 Thus, this microservice seeks to this problem in a more interesting way.
 
+## Technologies
+
+
+- Analysis: NumPy, SciPy, pandas
+- Server: Flask
+- Database: PyMongo, MongoDB 
+- Deployment: DigitalOcean, Docker
+
 ## Notebooks
+
 
 I've thoroughly annotated my thought process and the heart my code in iPython/jupyter notebooks. See how I use dijkstra's algorithm to recommend ingredient pairings [here](https://github.com/alberth8/PairingService/blob/master/dijkstras.ipynb) and my approach to ranking ingredients [here](https://github.com/alberth8/PairingService/blob/master/intersection.ipynb)
 
 ## API Reference
 
+
 My microserivce is on docker, so you can see the results by visiting
-http://104.236.101.231:5000
+`http://104.236.101.231:5000`.
 
 `/` just returns "This is a test."
 
@@ -46,4 +57,4 @@ At the bottom of `app.py`, delete `port='0.0.0.0'` so that it defaults to `127.0
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE.md file for details
+This project is licensed under the MIT License - see the LICENSE.md file for details.
