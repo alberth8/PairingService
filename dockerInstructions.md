@@ -93,9 +93,9 @@ In Flask, port `5000` is the default, so whatever you choose, make sure it's con
 
 You might find these commands helpful if you're troubleshooting.
 
-View all running containers: docker ps
+View all running containers: `docker ps`
 
-View all images: docker images
+View all images: `docker images`
 
 Stop all running containers: `docker rm $(docker stop $(docker ps -aq))`
 
