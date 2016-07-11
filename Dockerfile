@@ -21,7 +21,6 @@ RUN apt-get install -y curl grep sed dpkg && \
     rm tini.deb && \
     apt-get clean
 
-
 ENV PATH /opt/conda/bin:$PATH
 
 RUN mkdir -p /myapp
@@ -31,8 +30,6 @@ WORKDIR /myapp
 RUN pip install pymongo
 
 COPY . /myapp
-
-
 
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 CMD [ "/bin/bash" ]
