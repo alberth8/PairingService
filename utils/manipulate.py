@@ -2,7 +2,6 @@ import pandas as pd
 import itertools as it
 import numpy as np
 import json
-import functools
 
 pd.set_option('expand_frame_repr', False)
 

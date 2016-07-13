@@ -2,16 +2,24 @@
 How to run:
  $ export FLASK_APP=app.py
  $ flask run
+
+Docker:
+http://104.236.101.231:5000/
 """
+import os
 import json
 import pandas as pd
 from flask import Flask, request, jsonify
 from pymongo import MongoClient
+from tables import *
 from utils.all_paths import all_paths
 from utils.intersection import find_intersection
 
+
 app = Flask(__name__)
-client = MongoClient('localhost', 27017)  # creates connection
+print(app)
+print(__name__)
+client = MongoClient(os.environ['MONGODB_1_PORT_27017_TCP_ADDR'],  27017)  # creates connection
 
 # drop database, then recreate database
 client.drop_database('pairings_service')
@@ -35,7 +43,7 @@ with open('data/store_clean.h5', 'rb') as file:
 # test route
 @app.route('/', methods=['GET'])
 def home():
-    return 'xyz'
+    return 'This is a test.'
 
 
 '''
@@ -64,6 +72,14 @@ def repopulate():
 
 '''
 Find path between two ingredients
+
+Request:
+{
+  'ingredients': ['ingredient_a', 'ingredient_b']
+}
+
+Response:
+['ingredient_a', 'ingredient_1', ... , 'ingredient_{n-1}', 'ingredient_b']
 '''
 @app.route('/api/path', methods=['POST'])
 def shortest_path():
@@ -79,14 +95,22 @@ def shortest_path():
 
 
 '''
-Obtain recommended pairings between a given set of ingredients
+Obtain ranked ingredients from the intersections of a given set of ingredients
+
+Request:
+{
+  'ingredients': ['ingredient_0', ...,'ingredient_j']
+}
+
+Response:
+["ingredient_i", ..., "ingredient_{i+k}", ...,  "ingredient_n"]
 '''
 @app.route('/api/intersection', methods=['POST'])
 def intersection():
     ingredients = request.get_json()['ingredients']
-    result = find_intersection(clean_df, ingredients)
-    return jsonify(result)
+    ranked = find_intersection(clean_df, ingredients)
+    return jsonify(ranked=ranked)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
