@@ -1,4 +1,4 @@
-# How to Dockerize a Flask, MongoDB app
+# How to Dockerize a Flask + MongoDB app
 
 This is a quick tutorial on how to dockerize a Flask + MongoDB app. I experienced quite a few bumps a long the way. Hopefully this tutorial will alleviate much of that agony for the reader.
 
