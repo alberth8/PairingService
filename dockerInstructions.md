@@ -82,8 +82,8 @@ See [here](https://docs.docker.com/machine/drivers/aws/) for getting yoru AWS cr
 1. `docker-machine start [machine_name]` to start your docker-machine
 2. It should then prompt you to enter `eval $(docker-machine env [machine_name])`
 3. `docker-compose build`
-4. Get some coffee, food, or go use the restroom.
-5. docker-compose up
+4. Go grab some coffee or food
+5. `docker-compose up`
 
 And if there's no other errors, you should be able to connect to your app by using the ip address of your host machine and the port you've exposed (`ports`). With DigitalOcean, the IP Address can be found on the droplets page, but you can also find the ip address by entering `docker-machine ip [machine_name]` on the command line.
 
