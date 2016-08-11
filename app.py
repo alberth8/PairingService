@@ -17,9 +17,11 @@ from utils.intersection import find_intersection
 
 
 app = Flask(__name__)
-print(app)
-print(__name__)
+# > use this if running on remote:
 client = MongoClient(os.environ['MONGODB_1_PORT_27017_TCP_ADDR'],  27017)  # creates connection
+
+# > use this if running on local machine:
+# client = MongoClient()  # creates connection
 
 # drop database, then recreate database
 client.drop_database('pairings_service')
@@ -107,10 +109,14 @@ Response:
 '''
 @app.route('/api/intersection', methods=['POST'])
 def intersection():
-    ingredients = request.get_json()['ingredients']
+    ingredients = request.get_json(force=True)['ingredients']
     ranked = find_intersection(clean_df, ingredients)
     return jsonify(ranked=ranked)
 
 
 if __name__ == '__main__':
+    # use this if running on remote
     app.run(host='0.0.0.0', port=5000, debug=True)
+
+    # use this if running on local
+    # app.run(port=5000, debug=True)
