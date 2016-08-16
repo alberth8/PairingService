@@ -5,7 +5,7 @@ This is a quick tutorial on how to dockerize a Flask + MongoDB app. I experience
 ## What you need
 
 1. A working app
-2. A digitial ocean or AWS account
+2. A DigitalOcean or AWS account
 3. Dockerfile
 4. docker-compose.yml
 
@@ -51,7 +51,7 @@ Then include the last two lines of their docker file
 
 Include all of the above to make one docker file.
 
-## Step 2: Creat your docker-compose file
+## Step 2: Create your docker-compose file
 
 If you don't need to create a container just for your database, then something similar what's below should suffice. Although I didn't need to, I tried to do two separate containers, but wasn't able to. I'd still like to know how to though, so if anyone knows what I need to change to get that working, please let me know.
 
@@ -100,4 +100,3 @@ View all images: `docker images`
 Stop all running containers: `docker rm $(docker stop $(docker ps -aq))`
 
 Delete all images: `docker rmi $(docker images -q)`
-
