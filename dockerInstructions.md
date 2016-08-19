@@ -71,7 +71,7 @@ Save the your `Dockerfile` and `docker-compose.yml` in your root directory ('/my
 
 ## Step 3: Get your access token / security keys
 
-See [here](https://docs.docker.com/machine/drivers/aws/) for getting your AWS credentials working. See [here](https://docs.docker.com/machine/drivers/digital-ocean/) for DigitalOcean. There are also a few options, but here's what I did to create my machine:
+See [here](https://docs.docker.com/machine/drivers/aws/) to set up your AWS crentials. See [here](https://docs.docker.com/machine/drivers/digital-ocean/) for DigitalOcean. There are also a few options, but here's what I did to create my machine:
 
     docker-machine create --driver digitalocean --digitalocean-access-token=[digitalocean_token] [machine_name]
     
