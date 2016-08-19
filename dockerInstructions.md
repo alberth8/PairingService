@@ -74,8 +74,13 @@ Save the your `Dockerfile` and `docker-compose.yml` in your root directory ('/my
 See [here](https://docs.docker.com/machine/drivers/aws/) for getting yoru AWS credentials working. See [here](https://docs.docker.com/machine/drivers/digital-ocean/) for DigitalOcean. There are also a few options, but here's what I did to create my machine:
 
     docker-machine create --driver digitalocean --digitalocean-access-token=[digitalocean_token] [machine_name]
-
+    
 (Don't include the brackets).
+    
+**Update**: By default DigitalOcean driver will use ubuntu-15-10-x64 as the default image, but 15.10 is non-LTS and a release that DigitalOcean no longer provides! In addition to the above, you must specificy a digital ocean image. The closest to 15.10 is going to be 16.04, so add this before `[machine_name]`:
+
+    --digitalocean-image=ubuntu-16-04-x64
+    
 
 ## Step 4: Going live
 
