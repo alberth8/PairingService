@@ -17,7 +17,7 @@ This is a quick tutorial on how to dockerize a Flask + MongoDB app. I experience
 
 ## Step 1: Create your Dockerfile
 
-Because I'm using the anaconda3 docker image, I don't need a `requirements.txt`, it's all taken care of for me. This is from their docker image
+Because I'm using the anaconda3 docker image, I don't need a `requirements.txt`, it's all taken care of for me. This is from their docker image. What's below might not be up to date, so copy the equivalent parts from their most recent [Dockerfile](https://hub.docker.com/r/continuumio/anaconda3/~/dockerfile/).
 
     FROM debian:8.5
     MAINTAINER Kamil Kwiek <kamil.kwiek@continuum.io>
