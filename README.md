@@ -22,21 +22,59 @@ Thus, this microservice seeks to this problem in a more interesting way.
 ## Notebooks
 
 
-I've thoroughly annotated my thought process and the heart my code in iPython/jupyter notebooks. See how I use dijkstra's algorithm to recommend ingredient pairings [here](https://github.com/alberth8/PairingService/blob/master/dijkstras.ipynb) and my approach to ranking ingredients [here](https://github.com/alberth8/PairingService/blob/master/intersection.ipynb)
+I've thoroughly annotated my thought process and the heart my code in iPython/jupyter notebooks. See how I use Dijkstra's algorithm to recommend ingredient pairings [here](https://github.com/alberth8/PairingService/blob/master/dijkstras.ipynb) and my approach to ranking ingredients [here](https://github.com/alberth8/PairingService/blob/master/intersection.ipynb)
 
 ## API Reference
 
 
 My microserivce is on docker, so you can see the results by visiting
-`http://104.236.101.231:5000`.
+`http://45.55.232.155:5000`.
 
-`/` just returns "This is a test."
+`/` (GET): Returns "This is a test."
 
-`/api/path` returns a list of ingredients
+`/api/path` (POST): Returns ingredient path determined by Dijkstra's algorithm.
 
-`/api/intersection` returns a list of ranked ingredients in the intserction of the user's selected ingredients
+- request body: 
 
-`/api/update` is used to update the database with results from Saffron's web scraper.
+
+        {
+            "ingredients": ["ingredient_source", "ingredient_sink"]
+        }
+    Note: assumes ingredients provided are semantically correct and exist in the database.
+    
+    
+- response body: a path of ingredients
+
+
+        {
+            "path": [
+                "ingredient_source",
+                ...,
+                "ingredient_i",
+                ...,
+                "ingredient_sink"
+            ]
+        }
+
+`/api/intersection` (POST): Returns a list of ranked ingredients in the intserction of the user's selected ingredients
+
+- request body:
+
+
+        {
+            "ingredients": [
+                'ingredient_0',
+                ...,
+                'ingredient_j']
+        }
+
+- response body:
+    
+
+        ['ingredient_a', 'ingredient_1', ... , 'ingredient_{n-1}', 'ingredient_b']
+    
+        
+`/api/update` (POST): This API is used to update the database with results from Saffron's web scraper.
 
 Currently, I've stopped my DigitalOcean droplet (cost reasons), so you won't be able to access these api endpoints.
 
