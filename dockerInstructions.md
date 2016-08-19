@@ -12,12 +12,12 @@ This is a quick tutorial on how to dockerize a Flask + MongoDB app. I experience
 ## What to watch out for
 
 1. I used DigitalOcean, but the process for AWS should be very similar. I encountered several problems, such as pandas not downloading or installing properly. It turns out my DigitalOcean droplet was too small. So I upgraded to the $40/month plan and it solved this problem.
-2. If you're like me and not familiar with managing packages in Python, it's best to just use anacondas (even the pandas installation guide recommends this). Had someone told me about this sooner, the process of getting my app on Docker would have been *much* smoother. Below, I just copy and pasted [continuumio's anaconda3 Dockerfile](https://hub.docker.com/r/continuumio/anaconda3/~/dockerfile/) and added a few other commands to get my app installed.
-3. For me, version 1 of docker-compose worked. But it's only supported up to 1.6x and it's going to be deprecated for future releases of Compose, so you'll probably want to use [version 2](https://docs.docker.com/compose/compose-file/#/version-2) format. The translation is pretty straight forward.
+2. If you're not familiar with managing packages in Python, it's best to just use anacondas (even the pandas installation guide recommends this). Details on this below.
+3. As of this writing version 1 of docker-compose still works. However, it's only supported up to 1.6x and it's going to be deprecated for future releases of Compose, so you'll probably want to use [version 2](https://docs.docker.com/compose/compose-file/#/version-2) format. The translation is pretty straight forward.
 
 ## Step 1: Create your Dockerfile
 
-Because I'm using the anaconda3 docker image, I don't need a `requirements.txt`, it's all taken care of for me. This is from their docker image. What's below might not be up to date, so copy the equivalent parts from their most recent [Dockerfile](https://hub.docker.com/r/continuumio/anaconda3/~/dockerfile/).
+Using the anaconda3 docker image means you won't need a `requirements.txt`. The snippet below is not up to date, so be sure to take the corresponding relevant parts from their most recent  [Dockerfile](https://hub.docker.com/r/continuumio/anaconda3/~/dockerfile/).
 
     FROM debian:8.5
     MAINTAINER Kamil Kwiek <kamil.kwiek@continuum.io>
