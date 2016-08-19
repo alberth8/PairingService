@@ -77,7 +77,7 @@ See [here](https://docs.docker.com/machine/drivers/aws/) for getting yoru AWS cr
     
 (Don't include the brackets).
     
-**Update**: By default DigitalOcean driver will use ubuntu-15-10-x64 as the default image, but 15.10 is non-LTS and a release that DigitalOcean no longer provides! In addition to the above, you must specificy a digital ocean image. The closest to 15.10 is going to be 16.04, so add this before `[machine_name]`:
+**UPDATE**: By default DigitalOcean driver will use ubuntu-15-10-x64 as the default image, but 15.10 is non-LTS and a release that DigitalOcean no longer provides! In addition to the above, you must specificy a digital ocean image. The closest to 15.10 is going to be 16.04, so add this before `[machine_name]`:
 
     --digitalocean-image=ubuntu-16-04-x64
     
@@ -88,11 +88,11 @@ See [here](https://docs.docker.com/machine/drivers/aws/) for getting yoru AWS cr
 2. It should then prompt you to enter `eval $(docker-machine env [machine_name])`
 3. `docker-compose build`
 4. Get some coffee, food, or go use the restroom.
-5. docker-compose up
+5. `docker-compose up`
 
-And if there's no other errors, you should be able to connect to your app by using the ip address of your host machine and the port you've exposed (`ports`). With DigitalOcean, the IP Address can be found on the droplets page, but you can also find the ip address by entering `docker-machine ip [machine_name]` on the command line.
+And if there's no other errors, you should be able to connect to your app by using the ip address of your host machine and the port you've exposed (`ports`). With DigitalOcean, the IP Address can be found on the droplets page, but you can also find the ip address by entering, in a new terminal tab, `docker-machine ip [machine_name]` on the command line.
 
-In Flask, port `5000` is the default, so whatever you choose, make sure it's consistent in your docker-compose file and in your app.
+In Flask, port `5000` is the default, so whatever you choose in your app, make sure it's consistent with your docker-compose file.
 
 ## Other useful commands
 
