@@ -2,6 +2,12 @@
 
 This is a microservice that recommends ingredients for the app Saffron.
 
+
+## Notebooks
+
+I recommend that checking out the jupyter notebooks I've thoroughly annotated my thought process in. It shows how I use Dijkstra's algorithm to recommend ingredient pairings [here](https://github.com/alberth8/PairingService/blob/master/dijkstras.ipynb) and my approach to ranking ingredients [here](https://github.com/alberth8/PairingService/blob/master/intersection.ipynb)
+
+
 ## Motivation
 
 
@@ -19,10 +25,6 @@ Thus, this microservice seeks to this problem in a more interesting way.
 - Database: PyMongo, MongoDB 
 - Deployment: DigitalOcean, Docker
 
-## Notebooks
-
-
-I've thoroughly annotated my thought process and the heart my code in iPython/jupyter notebooks. See how I use Dijkstra's algorithm to recommend ingredient pairings [here](https://github.com/alberth8/PairingService/blob/master/dijkstras.ipynb) and my approach to ranking ingredients [here](https://github.com/alberth8/PairingService/blob/master/intersection.ipynb)
 
 ## API Reference
 
