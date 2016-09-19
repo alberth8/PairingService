@@ -5,7 +5,7 @@ This is a microservice that recommends ingredients for the app Saffron.
 
 ## Notebooks
 
-I recommend that checking out the jupyter notebooks I've thoroughly annotated my thought process in. It shows how I use Dijkstra's algorithm to recommend ingredient pairings [here](https://github.com/alberth8/PairingService/blob/master/dijkstras.ipynb) and my approach to ranking ingredients [here](https://github.com/alberth8/PairingService/blob/master/intersection.ipynb)
+I recommend that checking out the jupyter notebooks I've thoroughly annotated my thought process in. It shows how I use Dijkstra's algorithm to recommend ingredient pairings [here](https://github.com/alberth8/PairingService/blob/master/dijkstras.ipynb) and my approach to ranking ingredients [here](https://github.com/alberth8/PairingService/blob/master/intersection.ipynb).
 
 
 ## Motivation
